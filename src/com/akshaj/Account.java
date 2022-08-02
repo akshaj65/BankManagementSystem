@@ -7,7 +7,9 @@ import java.io.Serializable;
 public class Account implements Serializable{
 
 	private static final long serialVersionUID = 1L;
-	private String Number;
+	private static int NoOfAcc=0;
+    private static int Acc_Num=Main.ACC_NUMBR*10;
+	private  int Number;
 	private double Balance;
 	private String Name;
 	private String Email;
@@ -18,16 +20,20 @@ public class Account implements Serializable{
 	public Account() {
 		
 	}
-	public Account(String Number,double Balance, String Name, String Email,String PhoneNumber,String Password,String[] BankDetails) {
-		this.Number=Number;
+	public Account(double Balance, String Name, String Email,String PhoneNumber,String Password,String[] BankDetails) {
+		this.Number=Acc_Num++;
 		this.Balance=Balance;
 		this.Name=Name;
 		this.Email=Email;
 		this.PhoneNumber=PhoneNumber;
 		this.Password=Password;
 		this.BankDetails=BankDetails;
+		NoOfAcc++;
 	}
 	
+	public int getNoOAccounts() {
+		return NoOfAcc;
+	}
 
 	public void depositMoney(double DepositedMoney) {
 		this.Balance+=DepositedMoney;
@@ -54,10 +60,10 @@ public class Account implements Serializable{
 		return temp+space+BankDetails[n-1];	
 		
 	}
-	public String getNumber() {
+	public int getNumber() {
 		return Number;
 	}
-	public void setNumber(String number) {
+	public void setNumber(int number) {
 		Number = number;
 	}
 	public double getBalance() {
@@ -90,4 +96,5 @@ public class Account implements Serializable{
 	public void setPassword(String password) {
 		Password = password;
 	}
+	
 }

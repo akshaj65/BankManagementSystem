@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Scanner;
 import com.akshaj.storage.MyCache;
+import com.google.gson.Gson;
 
 public class Admin {
 
@@ -43,6 +44,8 @@ public class Admin {
 				String[] arr=new AdminAccount().getBankInfo(bank,bankBranch);
 				
 				bnk.storeArrToFile(arr);
+				
+//				System.out.println(bnk.convertObjToJson(CustAccounts));
 //				System.out.println(Arrays.toString(bnk.getArrFromFile()));
 				System.out.println("\n\tBank details updated");
 				break;
