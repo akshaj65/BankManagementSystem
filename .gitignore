@@ -3,7 +3,7 @@
 
 # Text file
 *.txt
-
+src/*.txt
 # Log file
 *.log
 

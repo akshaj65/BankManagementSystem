@@ -1,6 +1,10 @@
 package com.akshaj;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 //alt +shift+ s for automatically creating getters and setters
 //sysout then ctrl+ space
@@ -21,20 +25,22 @@ public class Account implements Serializable{
 		
 	}
 	public Account(double Balance, String Name, String Email,String PhoneNumber,String Password,String[] BankDetails) {
-		this.Number=Acc_Num++;
+		this.Number=Acc_Num+NoOfAcc;
+		NoOfAcc++;
 		this.Balance=Balance;
 		this.Name=Name;
 		this.Email=Email;
 		this.PhoneNumber=PhoneNumber;
 		this.Password=Password;
 		this.BankDetails=BankDetails;
-		NoOfAcc++;
 	}
 	
-	public int getNoOAccounts() {
+	public int getNoOfAccounts() {
 		return NoOfAcc;
 	}
-
+	public void setNoOfAccounts(int noOfAcc) {
+		NoOfAcc=noOfAcc;
+	}
 	public void depositMoney(double DepositedMoney) {
 		this.Balance+=DepositedMoney;
 		System.out.println("Deposit is Successful, New Balance is "+this.Balance);
@@ -97,4 +103,8 @@ public class Account implements Serializable{
 		Password = password;
 	}
 	
+	public ArrayList<Account> convertToObject(String str) {
+		Gson gson =new Gson();
+		return gson.fromJson(str,new TypeToken<ArrayList<Account>>() {}.getType());
+	}
 }

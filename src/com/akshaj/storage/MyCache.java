@@ -9,13 +9,12 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.Iterator;
-
 import com.akshaj.Account;
 import com.akshaj.AdminAccount;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
-
+import com.google.gson.reflect.TypeToken;
 import java.io.ObjectInputStream;
 import java.io.FileInputStream;
 
@@ -46,6 +45,40 @@ public class MyCache {
 		
 	}
 
+    public String[] convertToJson(ArrayList<?> accounts,int num) { //question mark refers to wildcard in generic programming
+    	ArrayList<String> arr = new ArrayList<>();
+    	arr.add(Integer.toString(num));
+    	Gson gson = new GsonBuilder().create();
+    	String json=gson.toJson(accounts, new TypeToken<ArrayList<?>>() {}.getType());
+    	arr.add(json);
+    	return arr.toArray(new String[arr.size()]);
+    }
+    
+    public JsonArray convertObjToJson(ArrayList<?> accounts) {
+    	JsonArray arr= new JsonArray();
+    	for(Object object: accounts) {
+    		arr.add(new Gson().toJson(object));
+    		System.out.println(new Gson().toJson(object));
+    		
+    	}
+		return arr;
+    	
+    }
+    public void storeStringToFile(String str) {
+		try {
+			BufferedWriter writer = new BufferedWriter(new FileWriter(this.Fname,false));
+			
+				writer.write(str.toString());
+				writer.newLine();
+			
+			writer.close();
+			System.out.println("File saved");
+			
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
 	public void storeArrToFile(String[] arr) {
 		try {
 			BufferedWriter writer = new BufferedWriter(new FileWriter(this.Fname,false));
@@ -121,5 +154,14 @@ public class MyCache {
 			e.printStackTrace();
 		}
 		return obj;
+	}
+	public void remove() {
+		new AdminAccount().setNoOfAccounts(0);
+		new Account().setNoOfAccounts(0);
+		if(new File(this.Fname).delete()) {
+			System.out.println(this.Fname+" file deleted.");
+		}else {
+			System.out.println("Failed to delete "+ this.Fname);
+		}
 	}
 }

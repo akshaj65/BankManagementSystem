@@ -9,25 +9,19 @@ import com.akshaj.storage.MyCache;
 public class Main {
 
     public final static  int ACC_NUMBR=10102;
-    public final static  String SU_ACC_NUMBR="10001";
-//    final static int SIZE=100;
-//    private static Account accounts[] = new Account[SIZE];
-//    private static AdminAccount superUsers[] = new AdminAccount[SIZE/10];
-    private static ArrayList<Account> accounts=(new File("custAccounts.txt").exists())?new ArrayList<Account>():new ArrayList<Account>();
-    private static ArrayList<AdminAccount> superUsers=(new File("suAccounts.txt").exists())?new ArrayList<AdminAccount>():new ArrayList<AdminAccount>();
-//	public Account[] getAccounts() {
-//		return accounts.clone();
-//	}
-//	AdminAccount[] getSUAccounts() {
-//		return superUsers.clone();
-//	}
+    public final static  int SU_ACC_NUMBR=10001;
+    private static ArrayList<Account> Accounts=new ArrayList<Account>();
+    private static ArrayList<AdminAccount> SuperUsers=new ArrayList<AdminAccount>();
+	public void setAccounts(ArrayList<Account> accounts) {
+		Accounts=accounts;
+	}
+	public void setSUAccounts(ArrayList<AdminAccount> superusers) {
+		SuperUsers=superusers;
+	}
 
     
 	public static void main(String[] args) {
 		Scanner in = new Scanner(System.in);
-//		superUsers[0]= new AdminAccount(SU_ACC_NUMBR+0,"system","admin@system");
-		superUsers.add(new AdminAccount(SU_ACC_NUMBR+0,"system","admin@system"));
-		int accountNum=0;
 		System.out.println("            Akz Bank");
 		System.out.println("\n       Welcome to Akz Bank");
 		System.out.println("           "+new Time().now());
@@ -37,64 +31,62 @@ public class Main {
 			int choice= in.nextInt();
 			int custPos=0,admnPos=1;
 			String  AccountNumber="";
+			String accNumStr="";
 				switch(choice) {
 					case 1:
 						String[] BankDetails=new Admin().BANK_DETAILS;
-						in.nextLine();
+						if(BankDetails.length==0) {	
+							System.out.println("\n      Please contact Admin [Bank Details not filled]");
+							break;
+						}
 						String[] temp=new Signin().start();
 						if(temp==null) break;
 						String Name= temp[0];
 						String Email=temp[1];
 						String PhoneNumber=temp[2];
 						String Password=temp[3];
-//						AccountNumber=ACC_NUMBR+String.valueOf(accountNum);
-//						accounts[accountNum++]=new Account(AccountNumber,0.0,Name,Email,PhoneNumber,Password,BankDetails);
-						accountNum++;
-						accounts.add(new Account(0.0,Name,Email,PhoneNumber,Password,BankDetails));
-//						System.out.println("\nAccount has been created.\nYour Account number is "+accounts[accountNum-1].getNumber());
-						System.out.println("\nAccount has been created.\nYour Account number is "+accounts.get(accountNum-1).getNumber());
+						Account newAcc=new Account(0.0,Name,Email,PhoneNumber,Password,BankDetails);
+						Accounts.add(newAcc);
+						System.out.println("\nAccount has been created.\nYour Account number is "+newAcc.getNumber());
 						break;
 					case 2:
 						System.out.println("        Customer Login");
 						System.out.println("\nEnter your account number: ");
 						in.nextLine();
 						AccountNumber= in.nextLine();
-						String accNumStr=Integer.toString(ACC_NUMBR);
+						accNumStr=Integer.toString(ACC_NUMBR);
 						custPos=(AccountNumber.length()>accNumStr.length())? Integer.valueOf(AccountNumber.replace(accNumStr,"")):-1; //returns index of the array
-						System.out.println(custPos+""+accNumStr.length());
-						if((custPos<0 || custPos>7 )|| accounts.get(custPos)==null) {
+						if(custPos<0 || custPos>=Accounts.size()) {
 							System.out.println("Incorrect Account Number");
 							break;
 						}
 						System.out.println("Enter your Password (8<password<20): ");
 						Password= in.nextLine();
-						if(!Password.equals(accounts.get(custPos).getPassword())) {
+						if(!Password.equals(Accounts.get(custPos).getPassword())) {
 							System.out.println("Incorrect Password");
 							break;
 						}
-						accounts.set(custPos, new Customer(accounts.get(custPos)).start());
-//						accounts[custPos]=new Customer(accounts[custPos]).start();
+						Accounts.set(custPos, new Customer(Accounts.get(custPos)).start());
 						break;
 					case 3:
+						if(SuperUsers.isEmpty()) SuperUsers.add(new AdminAccount("system","admin@system"));
 						System.out.println("        Admin Login");
 						System.out.println("\nEnter your account number: ");
 						in.nextLine();
 						AccountNumber= in.nextLine();
-						
-						admnPos=(AccountNumber.length()>SU_ACC_NUMBR.length())? Integer.valueOf(AccountNumber.replace(SU_ACC_NUMBR,"")):-1; //returns index of the array
-						if((admnPos<0 || admnPos>=7 )||superUsers.get(admnPos)==null) {
+						accNumStr=Integer.toString(SU_ACC_NUMBR);
+						admnPos=(AccountNumber.length()>accNumStr.length())? Integer.valueOf(AccountNumber.replace(accNumStr,"")):-1; //returns index of the array
+						if(admnPos<0 || admnPos>SuperUsers.size()) {
 							System.out.println("Incorrect Account Number");
 							break;
 						}
 						System.out.println("Enter your Password (8<password<20): ");
 						Password= in.nextLine();
-						if(!Password.equals(superUsers.get(admnPos).getPassword())) {
+						if(!Password.equals(SuperUsers.get(admnPos).getPassword())) {
 							System.out.println("Incorrect Password");
 							break;
 						}
-						new Admin().start(accountNum,admnPos,superUsers,accounts);
-						
-						
+						new Admin().start(admnPos,SuperUsers,Accounts);
 						break;
 					
 					case 99 :

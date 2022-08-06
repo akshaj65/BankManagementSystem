@@ -1,42 +1,55 @@
 package com.akshaj;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 public class AdminAccount implements Serializable{
 
 
 	private static final long serialVersionUID = 1L;
-	private String Number, Name, Password;
+	private static int NoOfAcc=0;
+    private static int Acc_Num=Main.SU_ACC_NUMBR*10;
+	private int Number;
+	private String Name, Password;
 	private String PhoneNumber;
 	private String Email;
-//	Bank bank;
-//	Branch BankBranch;
-	
 	public AdminAccount() {
 
 	}
 
-	public AdminAccount(String Number, String Name, String Password) {
+	public AdminAccount( String Name, String Password) {
+		this.Number=Acc_Num+NoOfAcc;
+		NoOfAcc++;
 		this.Name = Name;
 		this.Password = Password;
-		this.Number = Number;
+		this.PhoneNumber="null";
+		this.Email="null";
 	}
-	public AdminAccount(String Number, String Name,String Email,String PhoneNumber, String Password) {
+	public AdminAccount(String Name,String Email,String PhoneNumber, String Password) {
+		this.Number=Acc_Num+NoOfAcc;
+		NoOfAcc++;
 		this.Name = Name;
 		this.Password = Password;
-		this.Number = Number;
 		this.PhoneNumber=PhoneNumber;
 		this.Email=Email;
 	}
-
+	public int getNoOfAccounts() {
+		return NoOfAcc;
+	}
+	public void setNoOfAccounts(int noOfAcc) {
+		NoOfAcc=noOfAcc;
+	}
 	public String toString() {
 		return "Account Number: "+getNumber()+"\nName: "+getName()+"\nEmail: "+getEmail()+"\nMobile Number: "+getPhoneNumber();
 	}
-	public String getNumber() {
+	public int getNumber() {
 		return Number;
 	}
 
-	public void setNumber(String number) {
+	public void setNumber(int number) {
 		Number = number;
 	}
 
@@ -76,6 +89,9 @@ public class AdminAccount implements Serializable{
 		return new String[] { bank.getName(), bank.getCode(), BankBranch.getIFSC_Code(), BankBranch.getName(),
 				BankBranch.getAddress() };
 	}
-
+	public ArrayList<AdminAccount> convertToObject(String str) {
+		Gson gson =new Gson();
+		return gson.fromJson(str,new TypeToken<ArrayList<AdminAccount>>() {}.getType());
+	}
 
 }
