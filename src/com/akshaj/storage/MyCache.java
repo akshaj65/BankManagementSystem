@@ -17,6 +17,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.reflect.TypeToken;
 import java.io.ObjectInputStream;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 
 public class MyCache {
 	private String Path;
@@ -46,12 +47,18 @@ public class MyCache {
 	}
 
     public String[] convertToJson(ArrayList<?> accounts,int num) { //question mark refers to wildcard in generic programming
+     try {
     	ArrayList<String> arr = new ArrayList<>();
     	arr.add(Integer.toString(num));
     	Gson gson = new GsonBuilder().create();
     	String json=gson.toJson(accounts, new TypeToken<ArrayList<?>>() {}.getType());
     	arr.add(json);
     	return arr.toArray(new String[arr.size()]);
+     }
+	 catch(Exception e) {
+		e.printStackTrace();
+		return null;
+	 }
     }
     
     public JsonArray convertObjToJson(ArrayList<?> accounts) {
@@ -87,7 +94,7 @@ public class MyCache {
 				writer.newLine();
 			}
 			writer.close();
-			System.out.println("File saved");
+			System.out.println("File saved locally");
 			
 		}
 		catch(Exception e) {
@@ -103,6 +110,8 @@ public class MyCache {
 				lines.add(line);
 			}
 			reader.close();
+		}catch(FileNotFoundException fe) {
+			System.out.println("File not found -"+this.Fname);
 		}
 		catch(Exception e) {
 			e.printStackTrace();

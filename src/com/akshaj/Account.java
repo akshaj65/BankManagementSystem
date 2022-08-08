@@ -2,6 +2,7 @@ package com.akshaj;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -41,16 +42,26 @@ public class Account implements Serializable{
 	public void setNoOfAccounts(int noOfAcc) {
 		NoOfAcc=noOfAcc;
 	}
-	public void depositMoney(double DepositedMoney) {
-		this.Balance+=DepositedMoney;
-		System.out.println("Deposit is Successful, New Balance is "+this.Balance);
+	public void depositMoney(String DepMoney) {
+		try {
+			double DepositedMoney=Double.parseDouble(DepMoney);
+			this.Balance+=DepositedMoney;
+			System.out.println("Deposited  Successfuly, New Balance is "+this.Balance);
+		}catch(NumberFormatException eh) {
+			System.out.println("Failed to Deposit, Amount Incorrect {NumberFormatException}");
+		}
 	}
-	public void withdrawMoney(double WithdrawalMoney) {
-		if(this.Balance-WithdrawalMoney<0) {
-			System.out.println("Withdraw Unsuccessful only "+this.Balance+" is left");
-		}else {
-			this.Balance-=WithdrawalMoney;
-			System.out.println("Withdraw Successful, Current Balance is "+ this.Balance);
+	public void withdrawMoney(String amnt) {
+		try {
+			double amount=Double.parseDouble(amnt);
+			if(this.Balance-amount<0) {
+				System.out.println("Withdrawal Unsuccessful only "+this.Balance+" is left");
+			}else {
+				this.Balance-=amount;
+				System.out.println("Withdrawal Successful, Current Balance is "+ this.Balance);
+			}
+		}catch(NumberFormatException eh) {
+			System.out.println("Failed to Withdraw, Amount Incorrect {NumberFormatException}");
 		}
 	}
 

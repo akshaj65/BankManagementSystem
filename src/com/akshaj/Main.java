@@ -25,15 +25,15 @@ public class Main {
 		System.out.println("            Akz Bank");
 		System.out.println("\n       Welcome to Akz Bank");
 		System.out.println("           "+new Time().now());
-		System.out.println("\n\nChoose below services :-");
 		while(true) {
+			System.out.println("\n\nChoose the below services :-");
 			System.out.println("\n1.Open a new account \n2.Customer Login\n3.Admin Login\n99.Exit");
-			int choice= in.nextInt();
+			String choice= in.nextLine();
 			int custPos=0,admnPos=1;
 			String  AccountNumber="";
 			String accNumStr="";
 				switch(choice) {
-					case 1:
+					case "1":
 						String[] BankDetails=new Admin().BANK_DETAILS;
 						if(BankDetails.length==0) {	
 							System.out.println("\n      Please contact Admin [Bank Details not filled]");
@@ -49,55 +49,61 @@ public class Main {
 						Accounts.add(newAcc);
 						System.out.println("\nAccount has been created.\nYour Account number is "+newAcc.getNumber());
 						break;
-					case 2:
+					case "2":
 						System.out.println("        Customer Login");
 						System.out.println("\nEnter your account number: ");
-						in.nextLine();
-						AccountNumber= in.nextLine();
-						accNumStr=Integer.toString(ACC_NUMBR);
-						custPos=(AccountNumber.length()>accNumStr.length())? Integer.valueOf(AccountNumber.replace(accNumStr,"")):-1; //returns index of the array
-						if(custPos<0 || custPos>=Accounts.size()) {
-							System.out.println("Incorrect Account Number");
-							break;
+						try {
+							AccountNumber= in.nextLine();
+							accNumStr=Integer.toString(ACC_NUMBR);
+							custPos=(AccountNumber.length()>accNumStr.length())? Integer.valueOf(AccountNumber.replace(accNumStr,"")):-1; //returns index of the array
+							if(custPos<0 || custPos>=Accounts.size()) {
+								System.out.println("Incorrect Account Number");
+								break;
+							}
+							System.out.println("Enter your Password (8<password<20): ");
+							Password= in.nextLine();
+							if(!Password.equals(Accounts.get(custPos).getPassword())) {
+								System.out.println("Incorrect Password");
+								break;
+							}
+							Accounts.set(custPos, new Customer(Accounts.get(custPos)).start());
+						}catch(NumberFormatException e){
+							System.out.println("Data Incorrect {NumberFormatException}");
 						}
-						System.out.println("Enter your Password (8<password<20): ");
-						Password= in.nextLine();
-						if(!Password.equals(Accounts.get(custPos).getPassword())) {
-							System.out.println("Incorrect Password");
-							break;
-						}
-						Accounts.set(custPos, new Customer(Accounts.get(custPos)).start());
 						break;
-					case 3:
+					case "3":
 						if(SuperUsers.isEmpty()) SuperUsers.add(new AdminAccount("system","admin@system"));
 						System.out.println("        Admin Login");
 						System.out.println("\nEnter your account number: ");
-						in.nextLine();
-						AccountNumber= in.nextLine();
-						accNumStr=Integer.toString(SU_ACC_NUMBR);
-						admnPos=(AccountNumber.length()>accNumStr.length())? Integer.valueOf(AccountNumber.replace(accNumStr,"")):-1; //returns index of the array
-						if(admnPos<0 || admnPos>SuperUsers.size()) {
-							System.out.println("Incorrect Account Number");
-							break;
-						}
-						System.out.println("Enter your Password (8<password<20): ");
-						Password= in.nextLine();
-						if(!Password.equals(SuperUsers.get(admnPos).getPassword())) {
-							System.out.println("Incorrect Password");
-							break;
-						}
-						new Admin().start(admnPos,SuperUsers,Accounts);
+						try {
+							AccountNumber= in.nextLine();
+							accNumStr=Integer.toString(SU_ACC_NUMBR);
+							admnPos=(AccountNumber.length()>accNumStr.length())? Integer.valueOf(AccountNumber.replace(accNumStr,"")):-1; //returns index of the array
+							if(admnPos<0 || admnPos>SuperUsers.size()) {
+								System.out.println("Incorrect Account Number");
+								break;
+							}
+							System.out.println("Enter your Password (8<password<20): ");
+							Password= in.nextLine();
+							if(!Password.equals(SuperUsers.get(admnPos).getPassword())) {
+								System.out.println("Incorrect Password");
+								break;
+							}
+							new Admin().start(admnPos,SuperUsers,Accounts);
+						}catch(NumberFormatException e){
+							System.out.println("Data Incorrect " +e);
+						}	
 						break;
 					
-					case 99 :
+					case "99" :
 				    	System.out.println("\tThank You. Have A Nice Day :)");
 				    	System.exit(0);
-				    default :
+					default :
 				    	System.out.println("Wrong Choice.");
 					
-			}		
-		}
+			}	
+		
 		
 	}
-
+  }
 }

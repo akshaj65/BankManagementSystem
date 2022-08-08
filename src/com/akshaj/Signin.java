@@ -33,6 +33,6 @@ public class Signin {
 			return null;
 		}
 		return new String[] {Name,Email,PhoneNumber,Password};
-
+		
 	}
 }
