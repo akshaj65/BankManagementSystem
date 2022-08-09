@@ -68,7 +68,7 @@ public class Main {
 							}
 							Accounts.set(custPos, new Customer(Accounts.get(custPos)).start());
 						}catch(NumberFormatException e){
-							System.out.println("Data Incorrect {NumberFormatException}");
+							System.out.println("\nData Incorrect {NumberFormatException}");
 						}
 						break;
 					case "3":
@@ -91,7 +91,7 @@ public class Main {
 							}
 							new Admin().start(admnPos,SuperUsers,Accounts);
 						}catch(NumberFormatException e){
-							System.out.println("Data Incorrect " +e);
+							System.out.println("\nData Incorrect " +e.toString());
 						}	
 						break;
 					
