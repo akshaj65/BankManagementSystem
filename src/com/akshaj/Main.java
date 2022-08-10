@@ -22,12 +22,13 @@ public class Main {
     
 	public static void main(String[] args) {
 		Scanner in = new Scanner(System.in);
-		System.out.println("            Akz Bank");
-		System.out.println("\n       Welcome to Akz Bank");
-		System.out.println("           "+new Time().now());
+		System.out.println("                 Akz Bank");
+		System.out.println("\n           Welcome to Akz Bank");
+		System.out.println("               "+new Time().now());
 		while(true) {
 			System.out.println("\n\nChoose the below services :-");
-			System.out.println("\n1.Open a new account \n2.Customer Login\n3.Admin Login\n99.Exit");
+			System.out.println("\n1.Open a new account \t\t2.Customer Login\n3.Admin Login\t\t\t99.Exit");
+			System.out.print("\n>>");
 			String choice= in.nextLine();
 			int custPos=0,admnPos=1;
 			String  AccountNumber="";

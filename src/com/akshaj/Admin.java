@@ -16,14 +16,15 @@ public class Admin {
 	
 	void start(int admAccNum,ArrayList<AdminAccount> SUAccounts,ArrayList<Account> CustAccounts) {
 		Scanner in = new Scanner(System.in);
-		System.out.println("\nHi " + SUAccounts.get(admAccNum).getName());
+		System.out.println("\nHi " + SUAccounts.get(admAccNum).getName()+",");
 		MyCache custCache = new MyCache("", "customers.txt");
 		MyCache admnCache= new MyCache("","adminUsers.txt");
 		boolean exit=false;
 		String opt;
 		while (!exit) {
 			System.out.println(
-					"\nChoose the below services:-\n\n1.Enter Bank details: .\n2.Add new admin account.\n3.Print accounts opened in our bank.\n4.Print admin accounts.\n5.Backup Data.\n6.Restore Data.\n7.Wipe Data.\n99.Logout");
+					"\nChoose the below services:-\n\n1.Enter Bank details\t\t\t\t2.Add new admin account\n3.Print accounts opened in our bank\t\t4.Print admin accounts.\n5.Backup Data\t\t\t\t\t6.Restore Data\n7.Wipe Data\t\t\t\t\t99.Logout");
+			System.out.print("\n>>");
 			String choice = in.nextLine();
 			switch (choice) {
 			case "1":

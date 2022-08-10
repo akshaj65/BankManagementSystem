@@ -1,6 +1,5 @@
 package com.akshaj;
 
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Customer {
@@ -12,10 +11,11 @@ public class Customer {
 	}
 
 	Account start() {
-		System.out.println("\nHi " + CustomerAccount.getName());
+		System.out.println("\nHi " + CustomerAccount.getName()+",");
 		while (true) {
 			System.out.println(
-					"\nChoose the below services:-\n\n1.Deposit money in your account.\n2.Withdraw money from your account.\n3.Print Current Balance.\n99.Logout");
+					"\nChoose the below services:-\n\n1.Deposit money.\t\t2.Withdraw money.\n3.Print Current Balance.\t99.Logout");
+			System.out.print("\n>>");
 			String choice = in.nextLine();
 			String amount = "0";
 			  switch (choice) {
